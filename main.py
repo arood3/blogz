@@ -7,6 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:Letmein@localhost
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY'] = True
 db = SQLAlchemy(app)
+app.secret_key = "blogz123"
 
 class Blog(db.Model):
 
@@ -79,7 +80,7 @@ def new_post():
         if len(title_entry) == 0:
             title_error = "Your Post Needs A Title!"
         if len(body_entry) == 0:
-            body_error = "Your Post Needs Content!"
+            body_error = "Your Post Needs A Body!"
 
         if title_error or body_error:
             return render_template('newpost.html', titlebase="New Entry", title_error = title_error, body_error = body_error, title=title_entry, body_name=body_entry)
@@ -120,7 +121,7 @@ def signup():
         
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            username_error = "That username already exists, please try another one"
+            username_error = "That username already exists"
             return render_template('signup.html', username_error=username_error)
 
         if not existing_user:
